@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module1.Task4", "Module1.Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module1.CsWin32", "Module1.CsWin32\Module1.CsWin32.csproj", "{E26140A9-0C51-8A2F-E87E-2BC657C946ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module2.Task1", "Module2.Task1\Module2.Task1.csproj", "{F37251BA-1D62-9B3A-F98F-3CD768D057FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{E26140A9-0C51-8A2F-E87E-2BC657C946ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E26140A9-0C51-8A2F-E87E-2BC657C946ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E26140A9-0C51-8A2F-E87E-2BC657C946ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F37251BA-1D62-9B3A-F98F-3CD768D057FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37251BA-1D62-9B3A-F98F-3CD768D057FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37251BA-1D62-9B3A-F98F-3CD768D057FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37251BA-1D62-9B3A-F98F-3CD768D057FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
