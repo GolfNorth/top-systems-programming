@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Module1.Task4;
 
@@ -13,14 +14,14 @@ public partial class MainForm : Form
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern int MessageBox(IntPtr hWnd, string text, string caption, MessageBoxType type);
 
-    private readonly System.Windows.Forms.Timer _timer;
+    private readonly Timer _timer;
     private IntPtr _notepadHandle;
 
     public MainForm()
     {
         InitializeComponent();
 
-        _timer = new System.Windows.Forms.Timer();
+        _timer = new Timer();
         _timer.Interval = 1000;
         _timer.Tick += Timer_Tick;
     }

@@ -14,7 +14,6 @@ public partial class MainForm : Form
 
     private void buttonShowMessage_Click(object? sender, EventArgs e)
     {
-        // Вызов MessageBox из Windows API
-        MessageBox(Handle, "Hello, World!", "Caption", MessageBoxType.Ok | MessageBoxType.IconInformation);
+        MessageBox(Handle, "Привет, мир!", Text, MessageBoxType.Ok | MessageBoxType.IconInformation);
     }
 }
