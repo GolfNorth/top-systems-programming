@@ -23,6 +23,9 @@ partial class MainForm
         textBoxWord = new TextBox();
         buttonSearch = new Button();
         buttonCancel = new Button();
+        labelModel = new Label();
+        radioApm = new RadioButton();
+        radioEap = new RadioButton();
         listViewResults = new ListView();
         columnFileName = new ColumnHeader();
         columnFilePath = new ColumnHeader();
@@ -41,8 +44,11 @@ partial class MainForm
         panelTop.Controls.Add(textBoxWord);
         panelTop.Controls.Add(buttonSearch);
         panelTop.Controls.Add(buttonCancel);
+        panelTop.Controls.Add(labelModel);
+        panelTop.Controls.Add(radioApm);
+        panelTop.Controls.Add(radioEap);
         panelTop.Dock = DockStyle.Top;
-        panelTop.Height = 80;
+        panelTop.Height = 115;
 
         // labelDirectory
         labelDirectory.AutoSize = true;
@@ -81,6 +87,22 @@ partial class MainForm
         buttonCancel.Enabled = false;
         buttonCancel.Click += buttonCancel_Click;
 
+        // labelModel
+        labelModel.AutoSize = true;
+        labelModel.Location = new Point(10, 84);
+        labelModel.Text = "Модель:";
+
+        // radioApm
+        radioApm.AutoSize = true;
+        radioApm.Location = new Point(85, 82);
+        radioApm.Text = "APM (Begin/End)";
+        radioApm.Checked = true;
+
+        // radioEap
+        radioEap.AutoSize = true;
+        radioEap.Location = new Point(260, 82);
+        radioEap.Text = "EAP (события)";
+
         // listViewResults
         listViewResults.Columns.AddRange(new ColumnHeader[] { columnFileName, columnFilePath, columnCount });
         listViewResults.Dock = DockStyle.Fill;
@@ -116,12 +138,12 @@ partial class MainForm
         // MainForm
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(580, 400);
+        ClientSize = new Size(580, 430);
         Controls.Add(listViewResults);
         Controls.Add(panelTop);
         Controls.Add(progressBar);
         Controls.Add(labelStatus);
-        MinimumSize = new Size(500, 350);
+        MinimumSize = new Size(500, 380);
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Модуль 3 — Поиск слова в файлах";
 
@@ -138,6 +160,9 @@ partial class MainForm
     private TextBox textBoxWord;
     private Button buttonSearch;
     private Button buttonCancel;
+    private Label labelModel;
+    private RadioButton radioApm;
+    private RadioButton radioEap;
     private ListView listViewResults;
     private ColumnHeader columnFileName;
     private ColumnHeader columnFilePath;

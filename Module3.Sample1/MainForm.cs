@@ -22,10 +22,10 @@ public partial class MainForm : Form
         }
     }
 
-    private async void buttonSearch_Click(object? sender, EventArgs e)
+    private void buttonSearch_Click(object? sender, EventArgs e)
     {
-        string directory = textBoxDirectory.Text.Trim();
-        string word = textBoxWord.Text.Trim();
+        var directory = textBoxDirectory.Text.Trim();
+        var word = textBoxWord.Text.Trim();
 
         if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
         {
@@ -43,51 +43,118 @@ public partial class MainForm : Form
 
         SetSearching(true);
         listViewResults.Items.Clear();
+        progressBar.Value = 0;
         _cts = new CancellationTokenSource();
 
-        progressBar.Value = 0;
+        if (radioApm.Checked)
+            StartApmSearch(directory, word);
+        else
+            StartEapSearch(directory, word);
+    }
 
-        var progress = new Progress<string>(status =>
-        {
-            labelStatus.Text = status;
-        });
+    #region APM: Begin/End + SynchronizationContext
 
-        var percentProgress = new Progress<int>(percent =>
-        {
-            progressBar.Value = percent;
-        });
+    private void StartApmSearch(string directory, string word)
+    {
+        // колбэки прогресса маршалятся внутри ApmFileSearcher
+        // через захваченный SynchronizationContext — Invoke не нужен
+        ApmFileSearcher.BeginSearch(
+            directory, word,
+            status => labelStatus.Text = status,
+            percent => progressBar.Value = percent,
+            _cts!.Token,
+            OnApmSearchCompleted, null);
+    }
 
+    private void OnApmSearchCompleted(IAsyncResult ar)
+    {
+        // AsyncCallback вызывается на фоновом потоке —
+        // здесь Invoke по-прежнему нужен
         try
         {
-            var results = await FileSearcher.SearchAsync(directory, word, progress, percentProgress, _cts.Token);
+            var results = ApmFileSearcher.EndSearch(ar);
 
-            foreach (var result in results)
+            Invoke(() =>
             {
-                var item = new ListViewItem(result.FileName);
-                item.SubItems.Add(result.FilePath);
-                item.SubItems.Add(result.Count.ToString());
-                listViewResults.Items.Add(item);
-            }
+                if (_cts?.IsCancellationRequested == true)
+                    labelStatus.Text = "Поиск отменён.";
+                else
+                    ShowResults(results);
 
-            labelStatus.Text = $"Готово. Найдено файлов: {results.Count}, " +
-                               $"вхождений: {results.Sum(r => r.Count)}";
-        }
-        catch (OperationCanceledException)
-        {
-            labelStatus.Text = "Поиск отменён.";
+                FinishSearch();
+            });
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Ошибка поиска:\n{ex.Message}", "Ошибка",
+            Invoke(() =>
+            {
+                MessageBox.Show($"Ошибка поиска:\n{ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                labelStatus.Text = "Ошибка.";
+                FinishSearch();
+            });
+        }
+    }
+
+    #endregion
+
+    #region EAP: события + AsyncOperation (Invoke не нужен)
+
+    private void StartEapSearch(string directory, string word)
+    {
+        var searcher = new EapFileSearcher();
+
+        // события автоматически маршалятся на UI-поток
+        searcher.StatusChanged += (_, e) => labelStatus.Text = e.Status;
+        searcher.ProgressChanged += (_, e) => progressBar.Value = e.ProgressPercentage;
+        searcher.SearchCompleted += OnEapSearchCompleted;
+
+        searcher.SearchAsync(directory, word, _cts!.Token);
+    }
+
+    private void OnEapSearchCompleted(object? sender, SearchCompletedEventArgs e)
+    {
+        if (e.Error != null)
+        {
+            MessageBox.Show($"Ошибка поиска:\n{e.Error.Message}", "Ошибка",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             labelStatus.Text = "Ошибка.";
         }
-        finally
+        else if (e.Cancelled)
         {
-            _cts.Dispose();
-            _cts = null;
-            SetSearching(false);
+            labelStatus.Text = "Поиск отменён.";
         }
+        else
+        {
+            ShowResults(e.Results!);
+        }
+
+        FinishSearch();
+    }
+
+    #endregion
+
+    #region Общие методы
+
+    private void ShowResults(List<SearchResult> results)
+    {
+        foreach (var result in results)
+        {
+            var item = new ListViewItem(result.FileName);
+            item.SubItems.Add(result.FilePath);
+            item.SubItems.Add(result.Count.ToString());
+            listViewResults.Items.Add(item);
+        }
+
+        labelStatus.Text = $"Готово. Найдено файлов: {results.Count}, " +
+                           $"вхождений: {results.Sum(r => r.Count)}";
+    }
+
+    private void FinishSearch()
+    {
+        _cts?.Dispose();
+        _cts = null;
+        SetSearching(false);
     }
 
     private void buttonCancel_Click(object? sender, EventArgs e)
@@ -102,5 +169,9 @@ public partial class MainForm : Form
         textBoxDirectory.Enabled = !searching;
         textBoxWord.Enabled = !searching;
         buttonBrowse.Enabled = !searching;
+        radioApm.Enabled = !searching;
+        radioEap.Enabled = !searching;
     }
+
+    #endregion
 }
