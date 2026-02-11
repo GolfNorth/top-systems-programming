@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module5.1.Task1", "Module5.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module5.1.Task4", "Module5.1.Task4\Module5.1.Task4.csproj", "{9A71C554-219F-44DD-A762-21C569CDE54D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module5.1.Task5", "Module5.1.Task5\Module5.1.Task5.csproj", "{95496E2B-ED8C-48D8-9599-67CB91D5C256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -290,6 +292,18 @@ Global
 		{9A71C554-219F-44DD-A762-21C569CDE54D}.Release|x64.Build.0 = Release|Any CPU
 		{9A71C554-219F-44DD-A762-21C569CDE54D}.Release|x86.ActiveCfg = Release|Any CPU
 		{9A71C554-219F-44DD-A762-21C569CDE54D}.Release|x86.Build.0 = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|x64.Build.0 = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Debug|x86.Build.0 = Debug|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|x64.ActiveCfg = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|x64.Build.0 = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|x86.ActiveCfg = Release|Any CPU
+		{95496E2B-ED8C-48D8-9599-67CB91D5C256}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
